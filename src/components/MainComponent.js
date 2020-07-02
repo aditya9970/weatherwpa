@@ -47,7 +47,7 @@ export function ExtraComponent(props) {
   const { data } = props;
 
   const loadData = () => {
-    setHour({...hour , rain:`${data.rain.1h}` })
+    // setHour({...hour , rain:`${data.rain.1h}` })
   };
   useEffect(() => {
     loadData();
