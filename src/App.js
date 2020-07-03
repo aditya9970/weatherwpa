@@ -56,9 +56,10 @@ function App() {
             main={data.main}
             location={data.name}
             country={data.sys.country}
+            icon={data.weather[0].icon}
           />
           <ExtraComponent data={data} />
-          <UVComponent value="11" level="Low" />
+          <UVComponent value={data_UV.value} />
         </>
       ) : (
         <div className="instruction">Enter Your location</div>

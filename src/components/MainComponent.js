@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 import d2d from "degrees-to-direction";
 
 function MainComponent(props) {
-  const { weather, main, location, country } = props;
+  const { weather, main, location, country, icon } = props;
+
+  var iconStyle = {
+    width: "100px",
+    height: "100px",
+    backgroundImage: `url(http://openweathermap.org/img/wn/${icon}@2x.png)`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
     <div className="main__container">
       <div className="Location__container">
@@ -10,13 +20,7 @@ function MainComponent(props) {
         <h3>{country}</h3>
       </div>
       <div className="weather__container">
-        <div
-          className="weather__icon"
-          // style={{
-          //   background: `url(${Background})`,
-          //   backgroundSize: "contain",
-          // }}
-        ></div>
+        <div className="weather__icon" style={iconStyle}></div>
         <h3>
           {weather.description} {main.temp}°C
         </h3>
@@ -38,20 +42,7 @@ function MainComponent(props) {
 export default MainComponent;
 
 export function ExtraComponent(props) {
-  const { hour, setHour } = useState({
-    rain: "",
-    snow: "",
-    visibilty: "",
-    clouds: "",
-  });
   const { data } = props;
-
-  const loadData = () => {
-    // setHour({...hour , rain:`${data.rain.1h}` })
-  };
-  useEffect(() => {
-    loadData();
-  });
   return (
     <div className="container">
       <h2>Extras</h2>
@@ -73,20 +64,22 @@ export function ExtraComponent(props) {
         )}
         {data.rain && (
           <li className="list__item">
-            <p style={{ fontSize: "16px" }}>{}</p>
-            <p className="overflow_stop">Wind speed</p>
+            <p style={{ fontSize: "16px" }}>N/A</p>
+            <p className="overflow_stop">Rain</p>
           </li>
         )}
         {data.snow && (
           <li className="list__item">
-            <p style={{ fontSize: "16px" }}>1000</p>
+            <p style={{ fontSize: "16px" }}>N/A</p>
             <p className="overflow_stop">snow</p>
           </li>
         )}
-        <li className="list__item">
-          <p style={{ fontSize: "16px" }}>1000</p>
-          <p className="overflow_stop">Wind speed</p>
-        </li>
+        {data.clouds && (
+          <li className="list__item">
+            <p style={{ fontSize: "16px" }}>{data.clouds.all}%</p>
+            <p className="overflow_stop">Cloudiness</p>
+          </li>
+        )}
       </ul>
     </div>
   );
@@ -94,24 +87,31 @@ export function ExtraComponent(props) {
 
 export function UVComponent(props) {
   const [color, setColor] = useState("");
+  const [inten, setInten] = useState("N/A");
   const [legnth, setLength] = useState(0);
-  const { value, level } = props;
+  const { value } = props;
 
   function handleBar() {
     var rgb = "0,0,0,1";
     var UV_level = value;
+    var UV_intensity = "N/A";
     if (UV_level <= 2) {
       rgb = "0,255,0,1";
+      UV_intensity = "low";
     } else if (UV_level <= 5) {
       rgb = "255, 191, 0,1";
+      UV_intensity = "Moderate";
     } else if (UV_level <= 7) {
       rgb = "255, 128, 0 , 1";
+      UV_intensity = "High";
     } else {
       rgb = "255, 0, 0 , 1";
+      UV_intensity = "Very High";
     }
+    setInten(UV_intensity);
     setColor(rgb);
-    let width = (UV_level / 11) * 100;
-    setLength(width);
+    const width = (UV_level / 11) * 100;
+    setLength(width + "%");
   }
   useEffect(() => {
     handleBar();
@@ -121,7 +121,7 @@ export function UVComponent(props) {
       <h2>UV light</h2>
       <div style={{ display: "flex" }}>
         <h3>{value}</h3>
-        <p>{level}</p>
+        <p>{inten}</p>
       </div>
       <div className="graph_container">
         <div className="bar__body">
@@ -129,7 +129,7 @@ export function UVComponent(props) {
             className="bar__level"
             style={{
               background: `linear-gradient(to right , rgba(0,255,0,1), rgba(${color}))`,
-              width: `${legnth}%`,
+              width: `${legnth}`,
             }}
           ></div>
         </div>
