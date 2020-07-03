@@ -5,7 +5,6 @@ import "./App.css";
 import MainComponent, {
   ExtraComponent,
   UVComponent,
-  SunComponent,
 } from "./components/MainComponent";
 
 function App() {
@@ -18,12 +17,11 @@ function App() {
   const fetchData = async () => {
     var { data } = await axios(link);
     setData(data);
-    var link_UV = `http://api.openweathermap.org/data/2.5/uvi?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${key}`;
-    console.log(link_UV);
-    fetchUV(link_UV);
+    fetchUV();
   };
-  const fetchUV = async (link) => {
-    var { data } = await axios(link);
+  const fetchUV = async () => {
+    var link_UV = `http://api.openweathermap.org/data/2.5/uvi?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${key}`;
+    var { data } = await axios(link_UV);
     setUV(data);
     setisloading(false);
   };
@@ -61,7 +59,6 @@ function App() {
           />
           <ExtraComponent data={data} />
           <UVComponent value={data_UV.value} />
-          <SunComponent up={data.sys.sunrise} down={data.sys.sunset} />
         </>
       ) : (
         <div className="instruction">Enter Your location</div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import d2d from "degrees-to-direction";
+import moment from "moment";
 
 function MainComponent(props) {
   const { weather, main, location, country, icon } = props;
@@ -147,6 +148,45 @@ export function UVComponent(props) {
           <li className="unit">10</li>
           <li className="unit">11+</li>
         </ul>
+      </div>
+    </div>
+  );
+}
+export function SunComponent(props) {
+  const { up, down } = props;
+
+  function dateconverter(ms) {
+    var ap = "am";
+    var date = new Date(ms * 1000);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    if (date.getHours() >= 12) {
+      hours = hours - 12;
+      ap = "pm";
+    }
+    if (hours < 10) hours = `0${hours}`;
+    if (minutes < 10) minutes = `0${minutes}`;
+    return `${hours}:${minutes} ${ap}`;
+  }
+  return (
+    <div className="container sun_container">
+      <div className=" sun__body">
+        <div className=" sun__element">
+          <div className="sun__element_main">
+            <div className="sun__element_main_icon svg-1"></div>
+            <p>{dateconverter(up)}</p>
+          </div>
+          <p>Sunrise</p>
+        </div>
+      </div>
+      <div className=" sun__body">
+        <div className=" sun__element">
+          <div className="sun__element_main">
+            <div className="sun__element_main_icon svg-2"></div>
+            <p>{dateconverter(down)}</p>
+          </div>
+          <p>Sunset</p>
+        </div>
       </div>
     </div>
   );

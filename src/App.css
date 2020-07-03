@@ -230,3 +230,46 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* ----------------------- Sun component ----------------------- */
+.sun_container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 3rem 0;
+}
+.sun__body {
+  display: flex;
+  flex-direction: column;
+}
+.sun__element {
+  display: flex;
+  flex-direction: inherit;
+  align-items: center;
+}
+.sun__element_main {
+  display: flex;
+  flex-direction: inherit;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 10rem;
+  height: 10rem;
+
+  margin-bottom: 5px;
+
+  border-radius: 10px;
+  background: #222831;
+  box-shadow: 5px 5px 10px #1b2027, -5px -5px 10px #29303b;
+}
+.sun__element_main_icon {
+  width: 7.5rem;
+  height: 7.5rem;
+  margin-bottom: 5px;
+}
+.svg-1 {
+  background-image: url("./assets/up.svg");
+  background-size: contain;
+}
+.svg-2 {
+  background-image: url("./assets/down.svg");
+  background-size: cover;
+}
